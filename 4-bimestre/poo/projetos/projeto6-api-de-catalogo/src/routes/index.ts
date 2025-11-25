@@ -1,8 +1,19 @@
-import express, { Router } from "express"
-import produtoRouter from "./produto"
-
+import express from "express"
+import produtosRouter from "./produtos"
 
 const router = express.Router()
-router.use("/produto", produtoRouter)
+
+router.use("/produtos", produtosRouter)
+
+router.get("/ping", (req,res)=>{
+  res.json({ pong:true})
+})
+
+
+router.get("/", (req, res) => {
+  let nome:string = "Everson"
+  let idade: number = 34
+  res.json({ nome, idade })
+});
 
 export default router

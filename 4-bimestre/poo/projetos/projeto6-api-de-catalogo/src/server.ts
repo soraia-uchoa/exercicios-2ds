@@ -1,27 +1,19 @@
-import express from "express";
-import helmet from "helmet";
-import router from "./routes";
+import express from "express"
+import helmet from "helmet"
+import path from "path"
+import router from "./routes"
 
+const server = express()
 
+server.use(helmet())
+server.use(express.json()) 
+server.use(express.urlencoded({ extended: true})) 
+server.use(express.static(path.join(__dirname, "../public")))
 
-const server = express();
+server.use("/", router)
 
-server.use(helmet());
-server.use(express.urlencoded({ extended: true }));
+server.listen(3000, () => {
+  console.log("Servidor rodando em http://localhost:3000");
+})
 
-server.use("/", router);
-
-const PORT = process.env.PORT || 3000;
-const serverInstance = server.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}/`);
-});
-
-
-export default serverInstance;
-
-
-process.on("SIGTERM", () => {
-  serverInstance.close(() => {
-    console.log("Servidor encerrado.");
-  });
-});
+export default server
